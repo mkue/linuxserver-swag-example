@@ -1,0 +1,25 @@
+version: '3'
+services:
+  proxy:
+    image: linuxserver/swag:version-1.9.0
+    environment:
+      PGID: '500'
+      PUID: '500'
+      EMAIL: 'admin@example.com'
+      URL: 'example.com'
+      SUBDOMAINS: 'api'
+      ONLY_SUBDOMAINS: 'true'
+      TZ: 'Europe/Zurich'
+      HTTPVAL: 'true'
+      STAGING: 'false'
+    volumes:
+      - ./nginx.conf:/config/nginx/site-confs/registry.conf
+    privileged: true
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - api
+
+  api:
+    image: nginx
